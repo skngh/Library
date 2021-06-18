@@ -32,6 +32,7 @@ body {
     border-radius: 25px;
     margin: auto;
     display: none;
+    box-shadow: 10px 5px 5px rgb(156, 137, 137);
 }
 form {
     display: flex;
@@ -64,6 +65,7 @@ form {
     border-radius: 25px;
     margin-top: 10px;
     overflow-y: auto;
+    box-shadow: 8px 5px 5px rgb(143, 125, 125);
 }
 .words {
     margin-left: 13px;
