@@ -1,12 +1,17 @@
+//Get book array if there is one
+//Array to store every book
+let bookArr = [];
+
+function getLocalStorage() {
+    return !localStorage.getItem('books')
+    bookArr = localStorage.getItem('books');
+}
 //Select elements
 const formContainer = document.querySelector(".form-container");
 const newBook = document.querySelector(".new-book");
 const submit = document.querySelector("#submit");
 const books = document.querySelector(".books");
 let title = document.getElementById("title");
-
-//Array to store every book
-let bookArr = [];
 
 let formVisible = false;
 
@@ -57,6 +62,8 @@ function Book (title, author, pages, read) {
 //Adds book to book array
 function addBookToLibrary(obj) {
     bookArr.push(obj);
+    //Put book array in local storage
+    localStorage.setItem('books', bookArr);
 }
 //Make new book card
 function makeBook (title, author, pages, read) {
