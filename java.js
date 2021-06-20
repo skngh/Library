@@ -3,7 +3,7 @@
 var bookArr = [];
 
 (function getLocalStorage() {
-    return Storage.length == 0 ? console.log('1') : bookArr = localStorage.getItem('books');
+    return Storage.length == 0 ? localStorage.setItem('books', JSON.stringify(bookArr)) : bookArr = JSON.parse(localStorage.getItem('books'));
 }());
 //Select elements
 const formContainer = document.querySelector(".form-container");
@@ -63,7 +63,7 @@ function Book (title, author, pages, read) {
 function addBookToLibrary(obj) {
     bookArr.push(obj);
     //Put book array in local storage
-    localStorage.setItem('books', bookArr);
+    localStorage.setItem('books', JSON.stringify(bookArr));
 }
 //Make new book card
 function makeBook (title, author, pages, read) {
@@ -134,9 +134,10 @@ function makeBook (title, author, pages, read) {
     deleteButton.classList.add("read");
     deleteButton.style.color = "red";
 
-    deleteButton.addEventListener('click', () => [
+    deleteButton.addEventListener('click', () => {
+        bookArr.splice(bookArr.indexOf(newBook), 1);
         books.removeChild(bookContainer)
-    ])
+    })
     
 }
 function clearForm () {
