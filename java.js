@@ -1,11 +1,10 @@
 //Get book array if there is one
 //Array to store every book
-let bookArr = [];
+var bookArr = [];
 
-function getLocalStorage() {
-    return !localStorage.getItem('books')
-    bookArr = localStorage.getItem('books');
-}
+(function getLocalStorage() {
+    return Storage.length == 0 ? console.log('1') : bookArr = localStorage.getItem('books');
+}());
 //Select elements
 const formContainer = document.querySelector(".form-container");
 const newBook = document.querySelector(".new-book");
@@ -17,6 +16,7 @@ let formVisible = false;
 
 //Show all books in the library on startup
 (function displayBooks () {
+    if (bookArr.length == 0) return;
     for (let i = 0; i < bookArr.length; i++) {
         makeBook (bookArr[i].title, bookArr[i].author, bookArr[i].pages, bookArr[i].read);
     }
