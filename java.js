@@ -2,9 +2,18 @@
 //Array to store every book
 var bookArr = [];
 
-(function getLocalStorage() {
-    return Storage.length == 0 ? localStorage.setItem('books', JSON.stringify(bookArr)) : bookArr = JSON.parse(localStorage.getItem('books'));
-}());
+function populateStorage() {
+    localStorage.setItem('books', JSON.stringify(bookArr));
+}
+function getStorage() {
+    bookArr = JSON.parse(localStorage.getItem('books'));
+}
+//Get array from localStorage
+if(!localStorage.getItem('books')) {
+    populateStorage();
+} else {
+    getStorage();
+}
 //Select elements
 const formContainer = document.querySelector(".form-container");
 const newBook = document.querySelector(".new-book");
