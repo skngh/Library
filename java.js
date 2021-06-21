@@ -1,12 +1,16 @@
 //Get book array if there is one
 //Array to store every book
-var bookArr = [];
+let bookArr = [];
+let numberRead = 0;
 
 function populateStorage() {
     localStorage.setItem('books', JSON.stringify(bookArr));
 }
 function getStorage() {
     bookArr = JSON.parse(localStorage.getItem('books'));
+}
+const updateNumRead = () => {
+    numReadEl.textContent = `Books read: ${numberRead}`;
 }
 //Get array from localStorage
 if(!localStorage.getItem('books')) {
@@ -19,14 +23,15 @@ const formContainer = document.querySelector(".form-container");
 const newBook = document.querySelector(".new-book");
 const submit = document.querySelector("#submit");
 const books = document.querySelector(".books");
-let title = document.getElementById("title");
-
+const numReadEl = document.querySelector("#numRead");
 //Show all books in the library on startup
 (function displayBooks () {
     if (bookArr.length == 0) return;
     for (let i = 0; i < bookArr.length; i++) {
         makeBook (bookArr[i]);
     }
+    //Display number of books read on top right
+    updateNumRead();
 }());
 //Make the form appear when newBook is hit
 newBook.addEventListener("click", () => {
@@ -45,6 +50,7 @@ submit.addEventListener("click", () => {
     let hasRead = "";
     //Check which read box is checked
     read.checked ? hasRead = "Read" : hasRead = "Not read yet";
+    if (read.checked) numberRead++;
     //Declare new book object, add it to array, and then make the book card
     let newBook = new Book (title, author, pages, hasRead);
     addBookToLibrary(newBook);
@@ -66,6 +72,7 @@ function addBookToLibrary(obj) {
     bookArr.push(obj);
     //Put book array in local storage
     localStorage.setItem('books', JSON.stringify(bookArr));
+    updateNumRead();
 }
 //Make new book card
 function makeBook (obj) {
@@ -117,19 +124,20 @@ function makeBook (obj) {
     obj.read == "Read" ? bookReadHead.style.color = "green" : bookReadHead.style.color = "red";
     bookReadHead.textContent = obj.read;
     bookReadHead.appendChild(pageBreak);
-
     //Changes "Read" to "Not read yet" when clicked or vice versa
     bookReadHead.addEventListener("click", () => {
         if (bookReadHead.textContent == "Read") {
+            numberRead--;
             bookReadHead.textContent = "Not read yet"
             bookReadHead.style.color = "red";
-            
+            updateNumRead();
         } else {
+            numberRead++;
             bookReadHead.textContent = "Read";
             bookReadHead.style.color = "green";
+            updateNumRead();
         }
     })
-
     //Delete button that deletes book card
     const deleteButton = document.createElement('button');
     bookContainer.appendChild(deleteButton);
@@ -138,11 +146,12 @@ function makeBook (obj) {
     deleteButton.style.color = "black";
 
     deleteButton.addEventListener('click', () => {
+        numberRead--;
+        updateNumRead();
         bookArr.splice(bookArr.indexOf(obj), 1);
         populateStorage();
-        books.removeChild(bookContainer)
+        books.removeChild(bookContainer);
     })
-    
 }
 function clearForm () {
     document.getElementById("title").value = "";
