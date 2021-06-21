@@ -1,1 +1,1 @@
-Made for The Odin Project. Supposed to be demonstrating me using objects in Javascript, but I feel as though I didn't really need them so I feel like I did something not totally right lol. 
+Made for The Odin Project. Learned how to use localStorage and used object constructors to then store instances of object in an array to later be accessed.
