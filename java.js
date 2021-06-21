@@ -27,7 +27,7 @@ let formVisible = false;
 (function displayBooks () {
     if (bookArr.length == 0) return;
     for (let i = 0; i < bookArr.length; i++) {
-        makeBook (bookArr[i].title, bookArr[i].author, bookArr[i].pages, bookArr[i].read);
+        makeBook (bookArr[i]);
     }
 }());
 //Make the form appear when newBook is hit
@@ -54,7 +54,7 @@ submit.addEventListener("click", () => {
     //Declare new book object, add it to array, and then make the book card
     let newBook = new Book (title, author, pages, hasRead);
     addBookToLibrary(newBook);
-    makeBook (newBook.title, newBook.author, newBook.pages, newBook.read);
+    makeBook (newBook);
     //Turn back on book cards and turn off form
     formVisible = false;
     books.style.display = "flex";
@@ -75,7 +75,7 @@ function addBookToLibrary(obj) {
     localStorage.setItem('books', JSON.stringify(bookArr));
 }
 //Make new book card
-function makeBook (title, author, pages, read) {
+function makeBook (obj) {
     //Adds book card container
     const bookContainer = document.createElement('div');
     bookContainer.classList.add("book");
@@ -91,7 +91,7 @@ function makeBook (title, author, pages, read) {
     const bookTitle = document.createElement('p');
     bookContainer.appendChild(bookTitle);
     bookTitle.classList.add("words");
-    bookTitle.textContent = title;
+    bookTitle.textContent = obj.title;
     bookTitle.appendChild(pageBreak);
     //Adds author section
     const bookAuthorHead = document.createElement('h3');
@@ -103,7 +103,7 @@ function makeBook (title, author, pages, read) {
     const bookAuthor = document.createElement('p');
     bookContainer.appendChild(bookAuthor);
     bookAuthor.classList.add("words");
-    bookAuthor.textContent = author;
+    bookAuthor.textContent = obj.author;
     bookAuthor.appendChild(pageBreak);
     //Adds pages section 
     const bookPagesHead = document.createElement('h3');
@@ -115,14 +115,14 @@ function makeBook (title, author, pages, read) {
     const bookPages = document.createElement('p');
     bookContainer.appendChild(bookPages);
     bookPages.classList.add("words");
-    bookPages.textContent = pages;
+    bookPages.textContent = obj.pages;
     bookPages.appendChild(pageBreak);
     //Add read section with appropriate color
     const bookReadHead = document.createElement('button');
     bookContainer.appendChild(bookReadHead);
     bookReadHead.classList.add("read");
-    read == "Read" ? bookReadHead.style.color = "green" : bookReadHead.style.color = "red";
-    bookReadHead.textContent = read;
+    obj.read == "Read" ? bookReadHead.style.color = "green" : bookReadHead.style.color = "red";
+    bookReadHead.textContent = obj.read;
     bookReadHead.appendChild(pageBreak);
 
     //Changes "Read" to "Not read yet" when clicked or vice versa
@@ -130,6 +130,7 @@ function makeBook (title, author, pages, read) {
         if (bookReadHead.textContent == "Read") {
             bookReadHead.textContent = "Not read yet"
             bookReadHead.style.color = "red";
+            
         } else {
             bookReadHead.textContent = "Read";
             bookReadHead.style.color = "green";
@@ -141,10 +142,11 @@ function makeBook (title, author, pages, read) {
     bookContainer.appendChild(deleteButton);
     deleteButton.textContent = "Delete";
     deleteButton.classList.add("read");
-    deleteButton.style.color = "red";
+    deleteButton.style.color = "black";
 
     deleteButton.addEventListener('click', () => {
-        bookArr.splice(bookArr.indexOf(newBook), 1);
+        bookArr.splice(bookArr.indexOf(obj), 1);
+        populateStorage();
         books.removeChild(bookContainer)
     })
     
