@@ -21,8 +21,6 @@ const submit = document.querySelector("#submit");
 const books = document.querySelector(".books");
 let title = document.getElementById("title");
 
-let formVisible = false;
-
 //Show all books in the library on startup
 (function displayBooks () {
     if (bookArr.length == 0) return;
@@ -32,13 +30,9 @@ let formVisible = false;
 }());
 //Make the form appear when newBook is hit
 newBook.addEventListener("click", () => {
-    
-    if (!formVisible) {
         clearForm();
         books.style.display = 'none';
         formContainer.style.display = 'block';
-        formVisible = true;
-    }
 })
 //Make new book with data from form
 submit.addEventListener("click", () => {
@@ -56,7 +50,6 @@ submit.addEventListener("click", () => {
     addBookToLibrary(newBook);
     makeBook (newBook);
     //Turn back on book cards and turn off form
-    formVisible = false;
     books.style.display = "flex";
     formContainer.style.display = 'none';
 })
